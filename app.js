@@ -1,0 +1,136 @@
+
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const path = require("path");
+const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
+
+const Listing = require("./models/listing.js");
+const wrapasync = require("./utils/wrapasync.js");
+const ExpressError = require("./utils/expresserror.js");
+
+const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+
+// Database connection
+main()
+  .then(() => {
+    console.log("Connected to DB");
+  })
+  .catch((err) => {
+    console.log("Database connection error:", err);
+  });
+
+async function main() {
+  await mongoose.connect(MONGO_URL);
+}
+
+// EJS configuration
+app.engine("ejs", ejsMate);
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+// Middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
+app.use(express.static(path.join(__dirname, "public")));
+
+// Home Route
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
+
+// Index Route
+app.get(
+  "/listings",
+  wrapasync(async (req, res) => {
+    const allListings = await Listing.find({});
+    res.render("listings/index.ejs", { allListings });
+  })
+);
+
+// New Route
+app.get("/listings/new", (req, res) => {
+  res.render("listings/new.ejs");
+});
+
+// Create Route
+app.post(
+  "/listings",
+  wrapasync(async (req, res) => {
+    if(!req.body.listing){
+      throw new ExpressError(400,"send valid data for listing");
+    }
+    const newListing = new Listing(req.body.listing);
+    await newListing.save();
+    res.redirect("/listings");
+  })
+);
+
+// Edit Route
+app.get(
+  "/listings/:id/edit",
+  wrapasync(async (req, res) => {
+    const { id } = req.params;
+    const listing = await Listing.findById(id);
+    res.render("listings/edit.ejs", { listing });
+  })
+);
+
+// Update Route
+app.put(
+  "/listings/:id",
+  wrapasync(async (req, res) => {
+    if(!req.body.listing){
+      throw new ExpressError(400,"send valid data for listing");
+    }
+    const { id } = req.params;
+
+    await Listing.findByIdAndUpdate(
+      id,
+      { ...req.body.listing },
+      { runValidators: true }
+    );
+
+    res.redirect(`/listings/${id}`);
+  })
+);
+
+// Show Route
+app.get(
+  "/listings/:id",
+  wrapasync(async (req, res) => {
+    const { id } = req.params;
+    const listing = await Listing.findById(id);
+    res.render("listings/show.ejs", { listing });
+  })
+);
+
+// Delete Route
+app.delete(
+  "/listings/:id",
+  wrapasync(async (req, res) => {
+    const { id } = req.params;
+    await Listing.findByIdAndDelete(id);
+    res.redirect("/listings");
+  })
+);
+
+// Catch-all Route: Express 5 syntax
+app.use((req, res, next) => {
+  next(new ExpressError(404, "Page not found!"));
+});
+
+// Error-handling Middleware
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Something went wrong!";
+  res.status(statusCode).render("error.ejs",{message});
+
+  // res.status(statusCode).send(message);
+});
+
+// Start Server
+app.listen(8080, () => {
+  console.log("Server is listening on port 8080");
+});

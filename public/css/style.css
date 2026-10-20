@@ -1,0 +1,312 @@
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    color: #222;
+    background-color: #fff;
+}
+
+.page-content {
+    flex: 1 0 auto;
+    width: 100%;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+.container {
+    width: 100%;
+}
+
+
+/* ================================
+   NAVBAR
+================================ */
+
+.navbar {
+    min-height: 5rem;
+    background-color: #fff;
+    padding: 1rem 2rem;
+}
+
+.fa-compass {
+    color: #fe424d;
+    font-size: 2rem;
+}
+
+.nav-link {
+    color: #222 !important;
+}
+
+.nav-link:hover {
+    color: #fe424d !important;
+}
+
+
+/* ================================
+   ALL LISTINGS PAGE
+================================ */
+
+.listing-link {
+    display: block;
+    text-decoration: none;
+    color: #222;
+}
+
+.listing-link:hover {
+    color: #222;
+}
+
+/* Listing card */
+
+.listing-card {
+    width: 100%;
+    border: none !important;
+    border-radius: 1rem !important;
+    overflow: hidden;
+    background-color: #fff;
+    margin-bottom: 1rem;
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease;
+}
+
+.listing-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Listing image */
+
+.listing-img {
+    display: block !important;
+    width: 100% !important;
+    height: 250px !important;
+    object-fit: cover !important;
+    border-radius: 1rem !important;
+}
+
+/* Listing text */
+
+.listing-card .card-body {
+    padding: 0.8rem 0.2rem !important;
+}
+
+.listing-card .card-text {
+    color: #222;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.listing-card .card-text b {
+    font-weight: 600;
+}
+
+
+/* Image overlay */
+
+.listing-card .card-img-overlay {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.listing-card:hover .card-img-overlay {
+    opacity: 0.2;
+    background-color: white;
+}
+
+
+/* ================================
+   SHOW LISTING PAGE
+================================ */
+
+.show-page {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.show-card {
+    width: 100%;
+    border: none !important;
+    border-radius: 16px !important;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
+}
+
+.show-img {
+    display: block !important;
+    width: 100% !important;
+    height: 380px !important;
+    object-fit: cover !important;
+    object-position: center;
+    border-radius: 0 !important;
+}
+
+.show-card .card-body {
+    padding: 24px !important;
+}
+
+.show-card .card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #222;
+}
+
+.show-card .card-text {
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.show-card .btn {
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .show-img {
+        height: 250px !important;
+    }
+
+    .show-card .card-body {
+        padding: 16px !important;
+    }
+}
+
+
+/* ================================
+   NEW / EDIT LISTING FORMS
+================================ */
+
+.new-listing-container {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.new-listing-container h3 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.new-listing-container .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.new-listing-container .form-control {
+    width: 100%;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.5rem;
+}
+
+.new-listing-container .form-control:focus {
+    border-color: #fe424d;
+    box-shadow: 0 0 0 0.2rem rgba(254, 66, 77, 0.15);
+}
+
+.add-btn,
+.edit-btn {
+    background-color: #fe424d !important;
+    border-color: #fe424d !important;
+    color: #fff !important;
+    padding: 0.65rem 1.7rem;
+    border-radius: 0.5rem;
+}
+
+.add-btn:hover,
+.edit-btn:hover {
+    background-color: #e63843 !important;
+    border-color: #e63843 !important;
+}
+
+
+/* ================================
+   FOOTER
+================================ */
+
+footer {
+    width: 100%;
+    margin-top: auto;
+    flex-shrink: 0;
+}
+
+.f-info {
+    min-height: 8rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #ebebeb;
+    padding: 1rem 0;
+}
+
+.f-info-links {
+    text-decoration: none;
+    color: #222;
+}
+
+.f-info-links:hover {
+    text-decoration: underline;
+}
+
+.f-info-links,
+.f-info-socials,
+.f-info-brand {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.f-info-socials i {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+}
+
+
+/* ================================
+   RESPONSIVE DESIGN
+================================ */
+
+@media (max-width: 768px) {
+    .navbar {
+        min-height: 5rem;
+        padding: 1rem;
+    }
+
+    .page-content {
+        padding-top: 1.5rem;
+        padding-bottom: 2rem;
+    }
+
+    .listing-img {
+        height: 230px !important;
+    }
+
+    .show-img {
+        min-height: 200px;
+        max-height: 350px;
+    }
+
+    .f-info {
+        padding: 1.5rem 0;
+    }
+}
